@@ -12,9 +12,9 @@ header {
 }
 
 .logo_container {
+  background-color: blueviolet;
   display: flex;
   width: 40%;
-  background-color: blueviolet;
   align-items: center;
 }
 
@@ -23,28 +23,30 @@ header {
 }
 
 .logo_container h1 {
-  width: 70%;
   background-color: green;
-  font-size: x-large;
+  width: 70%;
   text-align: left;
+  font-size: x-large;
 }
 
 .nav_container {
+  background-color: aquamarine;
   display: flex;
   width: 60%;
-  background-color: aquamarine;
   justify-content: space-evenly;
   align-items: center;
 }
 
 .nav_container a {
   background-color: blanchedalmond;
+  /*Box Formatting*/
   display: flex;
   align-items: center;
   justify-content: center;
   height: 60%;
   width: 70%;
   border-radius: 1em;
+  /*Font Formatting*/
   font-size: large;
 }
 

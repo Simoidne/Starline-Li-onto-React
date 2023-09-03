@@ -1,4 +1,6 @@
-function Slide() {
+function Slide(currentSlide) {
+  
+
   return (
     <div>
       

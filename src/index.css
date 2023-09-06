@@ -53,6 +53,19 @@ header {
 /*SLIDESHOW CSS*/
 .slideshow {
   background-color: bisque;
+  display: flex;
   height: 1000px;
   width: 100%;
+}
+
+.nextButton {
+  background-color: black;
+  height: 100px;
+  width: 50%;
+}
+
+.prevButton {
+  background-color: black;
+  height: 100px;
+  width: 50%;
 }

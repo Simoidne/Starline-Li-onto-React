@@ -1,9 +1,9 @@
-function Slide(currentSlide) {
+function Slide(props) {
   
 
   return (
     <div>
-      
+      <p>{props.slide}</p>
     </div>
   )
 }

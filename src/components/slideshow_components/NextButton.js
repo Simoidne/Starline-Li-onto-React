@@ -1,12 +1,7 @@
-function NextButton({currentSlide, slideNum}) {
-  if (currentSlide == slideNum - 1) {
-    currentSlide = 0
-  } else {
-    currentSlide -= 1
-  }
-  
+
+function NextButton() {
   return (
-    <div>
+    <div className="nextButton">
       
     </div>
   )

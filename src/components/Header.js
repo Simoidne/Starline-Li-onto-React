@@ -4,7 +4,7 @@ const Header = ({ company }) => {
   return (
     <header>
       <a className="logo_container" href="index.html">
-        <img src="logo192.png" alt="" />
+        <img src="media/logo192.png" alt="" />
         <h1>{company}</h1>
       </a>
       <div className="nav_container">

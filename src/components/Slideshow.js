@@ -7,7 +7,7 @@ function Slideshow() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const slideNum = 3
 
-  function prevButtonClicked() {
+  const prevButtonClicked = () => {
     if (currentSlide === 0) {
       setCurrentSlide(slideNum - 1)
     } else {
@@ -16,20 +16,20 @@ function Slideshow() {
     console.log("Prev Button Clicked!")
   }
 
-  // function nextButtonClicked() {
-  //   if (currentSlide === slideNum - 1) {
-  //     currentSlide = 0
-  //   } else {
-  //     currentSlide += 1
-  //   }
-  //   console.log("Next Button Clicked!")
-  // }
+  const nextButtonClicked = () => {
+    if (currentSlide === slideNum - 1) {
+      setCurrentSlide(0)
+    } else {
+      setCurrentSlide(currentSlide + 1)
+    }
+    console.log("Next Button Clicked!")
+  }
 
   return (
     <div className="slideshow">
-      <PrevButton onClick="prevButtonClicked()"/>
+      <PrevButton onClick={prevButtonClicked} />
       <Slide slide={currentSlide}/>
-      <NextButton />
+      <NextButton onClick={nextButtonClicked} />
     </div>
   )
 }

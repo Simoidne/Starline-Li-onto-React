@@ -1,7 +1,7 @@
 
-function NextButton() {
+function NextButton({ onClick }) {
   return (
-    <div className="nextButton">
+    <div className="nextButton" onClick={onClick}>
       
     </div>
   )

@@ -1,9 +1,13 @@
-function Slide(props) {
-  
+function Slide({ slide }) {
+  // const images = [
+  //   "media/slide-images/image1.png",
+
+  // ]
 
   return (
     <div>
-      <p>{props.slide}</p>
+      <p>{slide}</p>
+      {/* <img src={images} alt="" /> */}
     </div>
   )
 }

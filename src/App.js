@@ -1,13 +1,15 @@
 import Header from "./components/Header";
-import Slideshow from "./components/Slideshow";
+import Main from './Main'
+import './header.css';
+
 
 function App() {
   return (
-    <div>
+    <div className="app">
       <Header />
-      <Slideshow />
+      <Main />
     </div>
-  )
+  );
 }
 
 export default App;

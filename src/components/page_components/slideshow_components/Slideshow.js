@@ -1,8 +1,9 @@
-import Slide from "./slideshow_components/Slide"
-import PrevButton from "./slideshow_components/PrevButton"
-import NextButton from "./slideshow_components/NextButton"
+import Slide from "./Slide"
+import PrevButton from "./PrevButton"
+import NextButton from "./NextButton"
 import { useState } from "react"
 
+// This is the Slideshow Displayed on the home page. 
 function Slideshow() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const slideNum = 3
@@ -27,11 +28,13 @@ function Slideshow() {
 
   return (
     <div className="slideshow">
-      <PrevButton onClick={prevButtonClicked} />
+      <div className="slideshowButtons">
+        <PrevButton onClick={prevButtonClicked} />
+        <NextButton onClick={nextButtonClicked} />
+      </div>
       <Slide slide={currentSlide}/>
-      <NextButton onClick={nextButtonClicked} />
     </div>
-  )
+  );
 }
 
 export default Slideshow

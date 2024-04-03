@@ -1,37 +1,38 @@
 * {
   text-decoration: none;
   margin: 0px;
+  padding: 0px;
 }
 
 
 /*HEADER CSS*/
 header {
-  background-color: red;
+  background-color: whitesmoke;
   display: flex;
   justify-content: center;
   height: 6em;
 }
 
 .logo_container {
-  background-color: blueviolet;
   display: flex;
   width: 40%;
   align-items: center;
 }
 
 .logo_container img {
-  width: 30%;
+  width: 20%;
 }
 
 .logo_container h1 {
-  background-color: green;
   width: 70%;
   text-align: left;
-  font-size: x-large;
+  font-size: xx-large;
+  font-family: 'Kanit', sans-serif;
+  font-style: italic;
+  color: rgb(37, 87, 162);
 }
 
 .nav_container {
-  background-color: aquamarine;
   display: flex;
   width: 60%;
   justify-content: space-evenly;
@@ -39,37 +40,19 @@ header {
 }
 
 .nav_container a {
-  background-color: blanchedalmond;
   /*Box Formatting*/
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 60%;
+  height: 100%;
   width: 70%;
-  border-radius: 1em;
+  
   /*Font Formatting*/
-  font-size: large;
+  font-size: larger;
+  font-family: 'Kanit', sans-serif;
+  color: rgb(37, 87, 162);
 }
 
-
-
-/*SLIDESHOW CSS*/
-.slideshow {
-  background-color: bisque;
-  display: flex;
-  justify-content: space-evenly;
-  height: 1000px;
-  width: 100%;
-}
-
-.nextButton {
-  background-color: black;
-  height: 100px;
-  width: 40%;
-}
-
-.prevButton {
-  background-color: black;
-  height: 100px;
-  width: 40%;
+.nav_container a:hover {
+  background-image: linear-gradient(to bottom, whitesmoke, rgb(232, 237, 240), rgb(213, 224, 231))
 }

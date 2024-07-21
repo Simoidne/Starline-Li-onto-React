@@ -4,7 +4,7 @@ import NextButton from "./NextButton"
 import { useState } from "react"
 
 // This is the Slideshow Displayed on the home page. 
-function Slideshow() {
+const Slideshow = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
   const slideNum = 3
 
@@ -14,7 +14,6 @@ function Slideshow() {
     } else {
       setCurrentSlide(currentSlide - 1)
     }
-    console.log("Prev Button Clicked!")
   }
 
   const nextButtonClicked = () => {
@@ -23,7 +22,6 @@ function Slideshow() {
     } else {
       setCurrentSlide(currentSlide + 1)
     }
-    console.log("Next Button Clicked!")
   }
 
   return (

@@ -1,6 +1,6 @@
 // import Banner from './about-us-components/AboutUsBanner'
 import TestBox from './about-us-components/TestBox';
-import AboutUsNav from './about-us-components/aboutUsNav'
+import AboutUsNav from './about-us-components/AboutUsNav'
 import './CSS_components/about-us.css'
 
 function AboutUs() {
@@ -15,6 +15,7 @@ function AboutUs() {
         <div className='aboutUsPage'>
             <AboutUsNav />
             <TestBox />
+            <div className='theBigTestDiv'></div>
         </div>
     );
 }

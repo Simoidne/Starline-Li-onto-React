@@ -10,7 +10,7 @@ header {
   background-color: whitesmoke;
   display: flex;
   justify-content: center;
-  height: 6em;
+  height: 4.5em;
 }
 
 .logo_container {
@@ -20,7 +20,7 @@ header {
 }
 
 .logo_container img {
-  width: 20%;
+  width: 4em;
 }
 
 .logo_container h1 {
@@ -29,7 +29,7 @@ header {
   font-size: xx-large;
   font-family: 'Kanit', sans-serif;
   font-style: italic;
-  color: rgb(37, 87, 162);
+  color: #00171f;
 }
 
 .nav_container {
@@ -50,9 +50,9 @@ header {
   /*Font Formatting*/
   font-size: larger;
   font-family: 'Kanit', sans-serif;
-  color: rgb(37, 87, 162);
+  color: #00171f;
 }
 
 .nav_container a:hover {
-  background-image: linear-gradient(to bottom, whitesmoke, rgb(232, 237, 240), rgb(213, 224, 231))
+  color: #5b5b5b;
 }

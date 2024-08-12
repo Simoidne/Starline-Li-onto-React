@@ -1,6 +1,6 @@
-import Slide from "./Slide"
-import PrevButton from "./PrevButton"
-import NextButton from "./NextButton"
+import Slide from "./SlideshowComponents/Slide"
+import PrevButton from "./SlideshowComponents/PrevButton"
+import NextButton from "./SlideshowComponents/NextButton"
 import { useState } from "react"
 
 // This is the Slideshow Displayed on the home page. 

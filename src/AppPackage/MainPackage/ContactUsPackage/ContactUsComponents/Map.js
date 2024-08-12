@@ -1,4 +1,4 @@
-const Map = () {
+const Map = () => {
     return null;
 }
 

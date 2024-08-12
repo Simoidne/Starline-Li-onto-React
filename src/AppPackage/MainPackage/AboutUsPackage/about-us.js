@@ -1,7 +1,7 @@
 // import Banner from './about-us-components/AboutUsBanner'
-import TestBox from './about-us-components/TestBox';
-import AboutUsNav from './about-us-components/AboutUsNav'
-import './CSS_components/about-us.css'
+import TestBox from './AboutUsComponents/TestBox';
+import AboutUsNav from './AboutUsComponents/AboutUsNav'
+import './about-us.css'
 
 function AboutUs() {
     return (

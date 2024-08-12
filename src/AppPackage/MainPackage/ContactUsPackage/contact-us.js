@@ -1,4 +1,4 @@
-import Map from './contact-us-components/Map';
+import Map from './ContactUsComponents/Map';
 
 function ContactUs() {
     return (

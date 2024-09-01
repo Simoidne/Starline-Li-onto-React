@@ -8,6 +8,11 @@
 /*HEADER CSS*/
 header {
   background-color: whitesmoke;
+
+  position: sticky;
+  top: 0;
+  z-index: 999;
+
   display: flex;
   justify-content: center;
   height: 4.5em;

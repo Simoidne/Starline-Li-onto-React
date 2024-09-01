@@ -1,6 +1,6 @@
 // import Banner from './about-us-components/AboutUsBanner'
-import TestBox from './AboutUsComponents/TestBox';
-import AboutUsNav from './AboutUsComponents/AboutUsNav'
+import AboutUsContent from './AboutUsContentPackage/AboutUsContent';
+import AboutUsNav from './AboutUsNav'
 import './about-us.css'
 
 function AboutUs() {
@@ -14,7 +14,7 @@ function AboutUs() {
         // <h1>Coming Soon</h1>
         <div className='aboutUsPage'>
             <AboutUsNav />
-            <TestBox />
+            <AboutUsContent />
             <div className='theBigTestDiv'></div>
         </div>
     );

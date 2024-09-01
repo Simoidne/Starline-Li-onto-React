@@ -1,11 +1,13 @@
 function HomeContents () {
     return (
         <div>
-            <div>
-                <h2>What we do</h2>
+            <div className="content_box">
+                <h2>Featured Products</h2>
+                <p>Provide list of popular or onsale products we sell.</p>
             </div>
-            <div>
-                <h2>skadlaskjd</h2>
+            <div className="small_banner">
+                <h2>Browse Online</h2>
+                <p>Provide list of products we sell.</p>
             </div>
         </div>
     );

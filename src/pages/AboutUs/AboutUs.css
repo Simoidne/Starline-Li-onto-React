@@ -1,0 +1,127 @@
+.about-page {
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  width: 100%;
+  margin: auto;
+  padding: clamp(1.25rem, 4vw, 3rem) var(--page-gutter);
+  align-items: start;
+}
+
+.about-nav {
+  position: sticky;
+  top: 7rem;
+  border-right: 2px solid var(--color-ink);
+  padding-right: 1rem;
+}
+
+.about-nav ul {
+  list-style: none;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.about-nav a {
+  display: block;
+  padding: 0.65rem 0.5rem;
+  font-weight: 600;
+  border-radius: 0.35rem;
+}
+
+.about-nav a:hover {
+  background: var(--color-surface);
+  color: var(--color-accent);
+}
+
+.about-content {
+  min-width: 0;
+}
+
+.about-section:first-child {
+  padding-top: 0;
+}
+
+.about-section:last-child {
+  border: 0;
+}
+
+.about-section p {
+  max-width: 70ch;
+}
+
+.about-section {
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--color-border);
+  scroll-margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  align-items: center;
+}
+
+.about-section > img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  background: var(--color-surface);
+}
+
+.about-section-reversed > img {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.about-section-reversed > .about-section-copy {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.about-section h3 {
+  font-size: 1.1rem;
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+}
+
+.about-section p + p {
+  margin-top: 1rem;
+}
+
+@media (max-width: 900px) {
+  .about-section {
+    grid-template-columns: 1fr;
+  }
+
+  .about-section > img {
+    aspect-ratio: 16 / 9;
+    max-height: 320px;
+  }
+
+  .about-section-reversed > img,
+  .about-section-reversed > .about-section-copy {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 700px) {
+  .about-page {
+    grid-template-columns: 1fr;
+  }
+
+  .about-nav {
+    position: static;
+    border-right: 0;
+    border-bottom: 2px solid var(--color-ink);
+    padding: 0 0 1rem;
+  }
+
+  .about-nav ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .about-nav a {
+    background: var(--color-surface);
+    height: 100%;
+  }
+}

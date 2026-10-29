@@ -1,0 +1,9 @@
+:root {
+  --color-ink: #00171f;
+  --color-accent: #007ea7;
+  --color-surface: #f5f5f5;
+  --color-background: #fff;
+  --color-border: #00171f20;
+  --color-muted: #425c65;
+  --page-gutter: clamp(1.25rem, 2.5vw, 3rem);
+}

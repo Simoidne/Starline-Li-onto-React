@@ -1,81 +1,27 @@
-.aboutUsPage {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: stretch;
+.aboutUsPage { display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 4rem); max-width: 1200px; margin: auto; padding: clamp(1.25rem, 4vw, 3rem); align-items: start; }
+.aboutUsNav { position: sticky; top: 7rem; border-right: 2px solid #00171f; padding-right: 1rem; }
+.aboutUsNav ul { list-style: none; display: grid; gap: .4rem; }
+.aboutUsNav a { display: block; padding: .65rem .5rem; font-weight: 600; border-radius: .35rem; }
+.aboutUsNav a:hover { background: whitesmoke; color: #007ea7; }
+.aboutUsContent { min-width: 0; }
+.contentBox { padding: 2rem 0; border-bottom: 1px solid #00171f20; scroll-margin-top: 1rem; }
+.contentBox:first-child { padding-top: 0; }
+.contentBox:last-child { border: 0; }
+.contentBox p { max-width: 70ch; }
+.about-section { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1.25rem, 3vw, 2.5rem); align-items: center; }
+.about-section > img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: .75rem; background: whitesmoke; }
+.imgRight > img { grid-column: 2; grid-row: 1; }
+.imgRight > .about-section-copy { grid-column: 1; grid-row: 1; }
+.about-section h3 { font-size: 1.1rem; line-height: 1.4; margin-bottom: .75rem; }
+.about-section p + p { margin-top: 1rem; }
+@media (max-width: 900px) {
+ .about-section { grid-template-columns: 1fr; }
+ .about-section > img { aspect-ratio: 16 / 9; max-height: 320px; }
+ .imgRight > img, .imgRight > .about-section-copy { grid-column: auto; grid-row: auto; }
 }
-
-.aboutUsNav {
-    height: 100%;
-    width: 33em;
-
-    position: sticky;
-    top: 5.5em;
-    left: 0;
-
-    margin-top: 5em;
-    margin-right: 0.75em;
-    margin-bottom: 2em;
-
-    border-right-style: solid;
-    border-right-color: #00171f;
-    border-right-width: 2px;
-
-}
-
-.aboutUsNav li {
-    margin-top: 0.75em;
-    margin-bottom: 0.5em;
-
-    padding-right: 0.25em;
-
-    list-style-type: none;
-    font-family: "SUSE", sans-serif;
-    font-size: larger;
-    font-weight: 600;
-    text-align: center;
-}
-
-.aboutUsContent {
-    display: flexbox;
-
-}
-
-.imgLeft div {
-    width: 60%;
-    margin-left: 1em;
-}
-
-.imgLeft img {
-    border-radius: 10px;
-}
-
-.contentBox {
-    width: 100%;
-    margin-top: 2em;
-
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.contentBox h2 {
-    width: 100%;
-    padding-top: 1em;
-    padding-bottom: 0.25em;
-    font-size: xxx-large;
-    font-family: "SUSE", sans-serif;
-    font-weight: 800;
-    color: #007ea7;
-}
-
-/* TODO remove this CSS after done testing */
-.theBigTestDiv {
-    height: 100%;
-    width: 100%;
-    z-index: -2;
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: #ffffff;
+@media (max-width: 700px) {
+ .aboutUsPage { grid-template-columns: 1fr; }
+ .aboutUsNav { position: static; border-right: 0; border-bottom: 2px solid #00171f; padding: 0 0 1rem; }
+ .aboutUsNav ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+ .aboutUsNav a { background: whitesmoke; height: 100%; }
 }

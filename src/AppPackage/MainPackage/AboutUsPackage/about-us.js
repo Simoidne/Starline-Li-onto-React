@@ -15,7 +15,7 @@ function AboutUs() {
         <div className='aboutUsPage'>
             <AboutUsNav />
             <AboutUsContent />
-            <div className='theBigTestDiv'></div>
+
         </div>
     );
 }

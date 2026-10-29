@@ -1,13 +1,15 @@
 const WhatWeDoContent = () => {
     return (
-        <div className="contentBox imgLeft">
-            <img src="./media/aboutUs_images/beautiful-ocean-water-resized.jpeg" />
-            <div>
+        <section id="what-we-do" className="contentBox about-section imgLeft">
+            <img src="/media/aboutUs_images/beautiful-ocean-water-resized.jpeg" alt="Clear blue ocean water" loading="lazy" />
+            <div className="about-section-copy">
                 <h2>What we do</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <h3>From the ocean to your table</h3>
+                <p>Good food starts with great ingredients. At Starline Li, our passion for seafood brings together a thoughtful selection, friendly service, and inspiration for your next meal.</p>
+                <p>Whether you are planning a family dinner or stocking a professional kitchen, explore a world of seafood with us.</p>
             </div>
-        </div>
+        </section>
     );
-}
+};
 
-export default WhatWeDoContent
+export default WhatWeDoContent;

@@ -1,13 +1,11 @@
-
 const AboutUsNav = () => (
-    <div className="aboutUsNav">
-        <ul>
-            <li>What We Do</li>
-            <li>Retail</li>
-            <li>Quality Assurance</li>
-            <li>Wholesale</li>
-        </ul>
-    </div>
-)
-
-export default AboutUsNav
+  <nav className="aboutUsNav" aria-label="About us sections">
+    <ul>
+      <li><a href="#what-we-do">What We Do</a></li>
+      <li><a href="#retail">Retail</a></li>
+      <li><a href="#quality-assurance">Quality Assurance</a></li>
+      <li><a href="#wholesale">Wholesale</a></li>
+    </ul>
+  </nav>
+);
+export default AboutUsNav;

@@ -6,7 +6,7 @@ import { useState } from "react"
 // This is the Slideshow Displayed on the home page. 
 const Slideshow = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
-  const slideNum = 3
+  const slideNum = 2
 
   const prevButtonClicked = () => {
     if (currentSlide === 0) {
@@ -25,13 +25,16 @@ const Slideshow = () => {
   }
 
   return (
-    <div className="slideshow">
+    <section className="slideshow" aria-label="Seafood gallery" aria-roledescription="carousel">
       <div className="slideshowButtons">
         <PrevButton onClick={prevButtonClicked} />
         <NextButton onClick={nextButtonClicked} />
       </div>
       <Slide slide={currentSlide}/>
-    </div>
+      <div className="slide-dots" aria-label="Choose a slide">
+        {Array.from({ length: slideNum }, (_, index) => <button key={index} type="button" aria-label={`Show slide ${index + 1}`} aria-current={currentSlide === index ? 'true' : 'false'} onClick={() => setCurrentSlide(index)} />)}
+      </div>
+    </section>
   );
 }
 

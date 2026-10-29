@@ -6,8 +6,9 @@ import './HeaderPackage/header.css';
 function App() {
   return (
     <div className="app">
+      <a className="skip-link" href="#main-content">Skip to content</a>
       <Header />
-      <Main />
+      <main id="main-content" tabIndex="-1"><Main /></main>
     </div>
   );
 }

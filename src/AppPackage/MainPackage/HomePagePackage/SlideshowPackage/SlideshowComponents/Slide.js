@@ -1,15 +1,14 @@
 function Slide({ slide }) {
   const images = [
-    "media/slide-images/IMG_6916.jpeg",
-    "media/slide-images/L1001202.JPG",
-    "media/slide-images/IMG_1563.HEIC"
+    "/media/slide-images/IMG_6916.jpeg",
+    "/media/slide-images/L1001202.JPG"
   ];
   
   let currentImage = images[slide];
 
   return (
-    <div className="imgContainer">
-      <img src={currentImage} alt="" />
+    <div className="imgContainer" aria-live="polite" aria-atomic="true">
+      <img src={currentImage} alt={`Starline Li seafood gallery, ${slide + 1} of ${images.length}`} />
     </div>
   );
 }

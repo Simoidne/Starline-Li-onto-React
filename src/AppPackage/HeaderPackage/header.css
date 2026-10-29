@@ -1,5 +1,5 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
-:root { color: #00171f; background: #fff; font-family: 'SUSE', sans-serif; line-height: 1.65; }
+:root { --page-gutter: clamp(1.25rem, 2.5vw, 3rem); color: #00171f; background: #fff; font-family: 'SUSE', sans-serif; line-height: 1.65; }
 html { scroll-behavior: smooth; scroll-padding-top: 7rem; }
 body { min-width: 280px; }
 a { color: inherit; text-decoration: none; }
@@ -7,7 +7,7 @@ button { font: inherit; color: inherit; }
 img { display: block; max-width: 100%; }
 button, a { -webkit-tap-highlight-color: transparent; }
 a:focus-visible, button:focus-visible { outline: 3px solid #007ea7; outline-offset: 4px; }
-header { background: whitesmoke; position: sticky; top: 0; z-index: 999; display: flex; align-items: center; justify-content: space-between; gap: 2rem; min-height: 5rem; padding: .5rem max(1.25rem, calc((100% - 1200px) / 2)); border-bottom: 1px solid #00171f20; }
+header { background: whitesmoke; position: sticky; top: 0; z-index: 999; display: flex; align-items: center; justify-content: space-between; gap: 2rem; min-height: 5rem; padding: .5rem var(--page-gutter); border-bottom: 1px solid #00171f20; }
 .logo_container { display: flex; align-items: center; gap: .65rem; flex-shrink: 0; }
 .logo_container img { width: 3.5rem; height: 3.5rem; object-fit: contain; }
 .logo_container h1 { font: italic 500 clamp(1.25rem, 3vw, 2rem) 'Kanit', sans-serif; white-space: nowrap; }
@@ -18,10 +18,9 @@ header { background: whitesmoke; position: sticky; top: 0; z-index: 999; display
 .menu-toggle span { margin-left: .4rem; }
 .skip-link { position: fixed; left: 1rem; top: -5rem; background: whitesmoke; padding: .75rem; z-index: 1000; }
 .skip-link:focus { top: .5rem; }
-.home-content, .page-shell { width: min(1200px, 100%); margin: auto; padding: clamp(1.25rem, 4vw, 4rem); }
+.home-content, .page-shell { width: 100%; margin: auto; padding: clamp(1.25rem, 4vw, 4rem) var(--page-gutter); }
 .home-content { display: grid; grid-template-columns: 1.3fr 1fr; gap: clamp(1.25rem, 3vw, 3rem); }
 .content_box, .small_banner { padding: clamp(1.25rem, 3vw, 2.5rem); border-radius: .75rem; background: whitesmoke; }
-.small_banner { border-top: 3px solid #007ea7; }
 h2, .page-shell h1 { color: #007ea7; font-size: clamp(1.6rem, 3vw, 2.5rem); line-height: 1.2; margin-bottom: 1rem; }
 p { overflow-wrap: anywhere; }
 .text-link { display: inline-flex; align-items: center; min-height: 44px; margin-top: 1rem; color: #007ea7; font-weight: 700; text-decoration: underline; text-underline-offset: .3em; }

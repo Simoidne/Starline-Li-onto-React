@@ -8,7 +8,7 @@ final class ApiError extends RuntimeException
 
 final class Auth
 {
-    private const ROLES = ['owner' => 'Owner', 'operations' => 'Operations', 'sales' => 'Sales'];
+    private const ROLES = ['owner' => 'Owner', 'operations' => 'Operations Manager'];
     // A valid bcrypt hash used to keep unknown-user password checks comparably expensive.
     private const DUMMY_HASH = '$2y$12$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2uheWG/igi.';
 

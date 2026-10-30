@@ -86,9 +86,8 @@ export default function UserManagement({ currentUser }) {
             onChange={(event) => setRole(event.target.value)}
             disabled={busy}
           >
-            <option value="operations">Operations</option>
-            <option value="sales">Sales</option>
-            <option value="owner">Owner</option>
+            <option value="operations">Operations Manager</option>
+                        <option value="owner">Owner</option>
           </select>
         </label>
         <button className="primary" disabled={busy}>
@@ -140,9 +139,8 @@ function UserRow({ user, ownAccount, busy, perform }) {
           disabled={busy || ownAccount}
         >
           <option value="owner">Owner</option>
-          <option value="operations">Operations</option>
-          <option value="sales">Sales</option>
-        </select>
+          <option value="operations">Operations Manager</option>
+                  </select>
       </label>
       <label className="active-toggle">
         <input

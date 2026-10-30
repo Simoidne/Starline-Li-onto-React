@@ -126,3 +126,11 @@
   outline: 3px solid var(--color-accent);
   outline-offset: -3px;
 }
+
+.product-no-photo {
+  display: grid;
+  place-items: center;
+  min-height: 220px;
+  background: #e6f0f2;
+  color: #164e63;
+}

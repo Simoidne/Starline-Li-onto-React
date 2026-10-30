@@ -20,3 +20,7 @@ console.log(`Deployment package: ${output}`);
 console.log(
   'Private credentials and runtime files are excluded. Configure config.php on the server.',
 );
+
+fs.cpSync(path.join(root, 'server', 'release'), path.join(privateDir, 'release'), {
+  recursive: true,
+});

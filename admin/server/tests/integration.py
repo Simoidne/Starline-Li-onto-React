@@ -136,21 +136,23 @@ def main():
             ops.request('reset-password', {'token': token, 'password': 'operations-password-123'})
             ops.request('reset-password', {'token': token, 'password': 'operations-password-123'}, status=422)
             result = ops.request('login', {'email': 'ops@example.com', 'password': 'operations-password-123'})
-            assert result['user']['role'] == 'Operations'
+            assert result['user']['role'] == 'Operations Manager'
             ops.request('users', status=403)
             ops.request('invite', {'email': 'rogue@example.com', 'name': 'Rogue', 'role': 'owner'}, status=403)
             ops.request('set-access', {'id': ops_id, 'role': 'owner', 'active': True}, status=403)
             print('PASS: invitations, hashed one-use tokens, login and backend role enforcement')
 
-            owner.request('set-access', {'id': ops_id, 'role': 'sales', 'active': True})
+            from products import check_products
+            check_products(owner, ops, Client, query, ROOT, private, PHP)
+            owner.request('invite', {'email':'legacy@example.com','name':'Legacy','role':'sales'}, status=422)
+            owner.request('set-access', {'id': ops_id, 'role': 'sales', 'active': True}, status=422)
+            owner.request('set-access', {'id': ops_id, 'role': 'operations', 'active': False})
             assert ops.request('session')['user'] is None
-            assert ops.request('login', {'email': 'ops@example.com', 'password': 'operations-password-123'})['user']['role'] == 'Sales'
-            owner.request('set-access', {'id': ops_id, 'role': 'sales', 'active': False})
-            assert ops.request('session')['user'] is None
+            ops.request('products', status=401)
             ops.request('login', {'email': 'ops@example.com', 'password': 'operations-password-123'}, status=401)
-            owner.request('set-access', {'id': '1', 'role': 'sales', 'active': False}, status=422)
+            owner.request('set-access', {'id': '1', 'role': 'operations', 'active': False}, status=422)
             owner.request('set-access', {'id': ops_id, 'role': 'operations', 'active': True})
-            print('PASS: role changes/disabled users revoke sessions; owner cannot remove own access')
+            print('PASS: legacy role rejected; disabled users revoke sessions; owner cannot remove own access')
 
             other = Client(origin)
             other.request('login', {'email': 'owner@example.com', 'password': 'owner-password-12345'})
@@ -170,7 +172,7 @@ def main():
             token = latest_token('ops@example.com')
             ops.request('reset-password', {'token': token, 'password': 'short'}, status=422)
             ops.request('reset-password', {'token': token, 'password': 'replacement-password-123'})
-            assert ops.request('login', {'email': 'ops@example.com', 'password': 'replacement-password-123'})['user']['role'] == 'Operations'
+            assert ops.request('login', {'email': 'ops@example.com', 'password': 'replacement-password-123'})['user']['role'] == 'Operations Manager'
             print('PASS: recovery responses, expiry, password rules and recovery completion')
 
             ops.request('logout', {})
@@ -182,6 +184,11 @@ def main():
             print('PASS: logout and login throttling survive new browser sessions')
             print('All PHP/MariaDB integration checks passed. No live database or real email was used.')
         finally:
+            import sys
+            if sys.exc_info()[0] is not None:
+                logs.flush()
+                print((tmp / 'services.log').read_text()[-6000:])
+                if (tmp / 'db.log').exists(): print((tmp / 'db.log').read_text()[-3000:])
             for process in [php, db]:
                 if process:
                     process.terminate()

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { calculate, convert, currencies } from './calculator';
 import AuthGate from './auth/AuthGate';
 import UserManagement from './auth/UserManagement';
+import ProductManager from './products/ProductManager';
 
 const initialRates = { CAD: 1, USD: 1.37, EUR: 1.49, CNY: 0.19, JPY: 0.0091 };
 const initialCosts = [
@@ -110,6 +111,9 @@ function Dashboard({ user, signOut, signingOut, changePassword }) {
         <a className="nav-item" href="#exchange">
           ⇄ <span>Currency exchange</span>
         </a>
+        <a className="nav-item" href="#products">
+          Products & pricing
+        </a>
         {role === 'Owner' && (
           <a className="nav-item" href="#team">
             Team access
@@ -158,36 +162,18 @@ function Dashboard({ user, signOut, signingOut, changePassword }) {
             value={result ? money(result.costPerKg) : '—'}
             detail="Adjusted for saleable yield"
           />
-          {role === 'Operations' ? (
-            <Stat
-              label="Saleable weight"
-              value={result ? `${result.saleableWeight.toLocaleString()} kg` : '—'}
-              detail="After expected loss"
-            />
-          ) : (
-            <Stat
-              label="Estimated gross profit"
-              value={result ? money(result.profit) : '—'}
-              detail="Before overhead and taxes"
-            />
-          )}
-          {role === 'Sales' ? (
-            <Stat
-              label="Planned selling price"
-              value={
-                Number.isFinite(number(sellingPrice)) ? money(number(sellingPrice)) : '—'
-              }
-              detail="CAD per saleable kg"
-            />
-          ) : (
-            <Stat
-              label="Estimated gross margin"
-              value={
-                result && result.margin !== null ? `${result.margin.toFixed(1)}%` : '—'
-              }
-              detail="Profit divided by revenue"
-            />
-          )}
+          <Stat
+            label="Estimated gross profit"
+            value={result ? money(result.profit) : '—'}
+            detail="Before overhead and taxes"
+          />
+          <Stat
+            label="Estimated gross margin"
+            value={
+              result && result.margin !== null ? `${result.margin.toFixed(1)}%` : '—'
+            }
+            detail="Profit divided by revenue"
+          />
         </section>
         <div className="content-grid">
           <section className="panel calculator">
@@ -355,6 +341,7 @@ function Dashboard({ user, signOut, signingOut, changePassword }) {
             </section>
           </div>
         </div>
+        <ProductManager />
         {role === 'Owner' && <UserManagement currentUser={user} />}
         <footer>
           STARLINE OPERATIONS <span>Planning tools for a changing market.</span>

@@ -3,6 +3,7 @@ declare(strict_types=1);
 // Copy to config.php in the PRIVATE server directory. Never put it in the React build.
 return [
     'environment' => 'production',
+    'public_url' => 'https://starline-li.com',
     'app_url' => 'https://admin.starline-li.com',
     'database' => [
         'dsn' => 'mysql:host=db5021782189.hosting-data.io;port=3306;dbname=dbs16289111;charset=utf8mb4',

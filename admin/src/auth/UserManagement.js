@@ -87,7 +87,7 @@ export default function UserManagement({ currentUser }) {
             disabled={busy}
           >
             <option value="operations">Operations Manager</option>
-                        <option value="owner">Owner</option>
+            <option value="owner">Owner</option>
           </select>
         </label>
         <button className="primary" disabled={busy}>
@@ -119,7 +119,9 @@ export default function UserManagement({ currentUser }) {
   );
 }
 function UserRow({ user, ownAccount, busy, perform }) {
-  const [role, setRole] = useState(user.role.toLowerCase());
+  const [role, setRole] = useState(
+    user.role === 'Operations Manager' ? 'operations' : 'owner',
+  );
   const [active, setActive] = useState(user.active);
   return (
     <div className="team-row">
@@ -140,7 +142,7 @@ function UserRow({ user, ownAccount, busy, perform }) {
         >
           <option value="owner">Owner</option>
           <option value="operations">Operations Manager</option>
-                  </select>
+        </select>
       </label>
       <label className="active-toggle">
         <input
@@ -156,7 +158,8 @@ function UserRow({ user, ownAccount, busy, perform }) {
           disabled={
             busy ||
             ownAccount ||
-            (role === user.role.toLowerCase() && active === user.active)
+            (role === (user.role === 'Operations Manager' ? 'operations' : 'owner') &&
+              active === user.active)
           }
           onClick={() =>
             perform(() => authClient.setAccess({ id: user.id, role, active }))

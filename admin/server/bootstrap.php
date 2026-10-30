@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/src/Auth.php';
+require_once __DIR__ . '/src/Products.php';
 ini_set('display_errors', '0');
 ini_set('log_errors', '1');
 header('Content-Type: application/json; charset=utf-8');
@@ -13,7 +14,7 @@ header('X-Frame-Options: DENY');
 function respond(array $body, int $status = 200): never
 {
     http_response_code($status);
-    if (isset($_SESSION['csrf'])) $body['csrfToken'] = $_SESSION['csrf'];
+    if (!in_array($_GET['action'] ?? '', ['catalog','product-image'], true) && isset($_SESSION['csrf'])) $body['csrfToken'] = $_SESSION['csrf'];
     echo json_encode($body, JSON_THROW_ON_ERROR);
     exit;
 }
@@ -46,37 +47,48 @@ try {
         $path = __DIR__ . '/' . $directory;
         if (!is_dir($path) && !mkdir($path, 0700, true)) throw new RuntimeException('Private storage unavailable');
     }
-    session_name($development ? 'starline_admin_dev' : '__Host-starline_admin');
-    ini_set('session.use_strict_mode', '1');
-    ini_set('session.use_only_cookies', '1');
-    ini_set('session.use_trans_sid', '0');
-    ini_set('session.gc_maxlifetime', (string) $config['session_absolute_seconds']);
-    session_save_path(__DIR__ . '/var/sessions');
-    session_cache_limiter('');
-    session_set_cookie_params(['lifetime' => 0, 'path' => '/', 'secure' => !$development, 'httponly' => true, 'samesite' => 'Strict']);
-    if (!session_start()) throw new RuntimeException('Session unavailable');
-    $_SESSION['csrf'] ??= bin2hex(random_bytes(32));
-
+    $action = $_GET['action'] ?? '';
+    $public = is_string($action) && in_array($action, ['catalog', 'product-image'], true);
+    // Public catalog requests never create sessions or return CSRF tokens.
+    $needsSession = !$public || ($action === 'product-image' && isset($_COOKIE[$development ? 'starline_admin_dev' : '__Host-starline_admin']));
+    if ($needsSession) {
+        session_name($development ? 'starline_admin_dev' : '__Host-starline_admin');
+        ini_set('session.use_strict_mode', '1');
+        ini_set('session.use_only_cookies', '1');
+        ini_set('session.use_trans_sid', '0');
+        ini_set('session.gc_maxlifetime', (string) $config['session_absolute_seconds']);
+        session_save_path(__DIR__ . '/var/sessions');
+        session_cache_limiter('');
+        session_set_cookie_params(['lifetime' => 0, 'path' => '/', 'secure' => !$development, 'httponly' => true, 'samesite' => 'Strict']);
+        if (!session_start()) throw new RuntimeException('Session unavailable');
+        $_SESSION['csrf'] ??= bin2hex(random_bytes(32));
+    }
     $method = $_SERVER['REQUEST_METHOD'] ?? '';
     $action = $_GET['action'] ?? '';
     if (!is_string($action)) throw new ApiError(404, 'Endpoint not found.');
-    $readActions = ['session', 'users'];
-    $writeActions = ['bootstrap', 'login', 'logout', 'forgot-password', 'reset-password', 'change-password', 'invite', 'resend-invitation', 'set-access'];
+    $readActions = ['session', 'users', 'products', 'product', 'catalog', 'product-image'];
+    $writeActions = ['bootstrap', 'login', 'logout', 'forgot-password', 'reset-password', 'change-password', 'invite', 'resend-invitation', 'set-access', 'product-save', 'product-delete', 'product-costs', 'product-upload', 'product-image-edit', 'product-image-delete'];
     if (!in_array($action, array_merge($readActions, $writeActions), true)) throw new ApiError(404, 'Endpoint not found.');
     $expectedMethod = in_array($action, $readActions, true) ? 'GET' : 'POST';
     if ($method !== $expectedMethod) { header('Allow: ' . $expectedMethod); throw new ApiError(405, 'Method not allowed.'); }
     // Reject cross-origin reads too, including same-site sibling subdomains.
-    if (isset($_SERVER['HTTP_ORIGIN']) && $_SERVER['HTTP_ORIGIN'] !== $config['app_url']) throw new ApiError(403, 'Request origin is not allowed.');
+    $allowedOrigin = $public ? ($config['public_url'] ?? $config['app_url']) : $config['app_url'];
+    if (isset($_SERVER['HTTP_ORIGIN']) && $_SERVER['HTTP_ORIGIN'] !== $allowedOrigin) throw new ApiError(403, 'Request origin is not allowed.');
     $input = [];
     if ($method === 'POST') {
         if (($_SERVER['HTTP_ORIGIN'] ?? '') !== $config['app_url']) throw new ApiError(403, 'Request origin is not allowed.');
         if (!hash_equals($_SESSION['csrf'], $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '')) throw new ApiError(419, 'Your session changed. Please try again.');
-        if (strtolower(trim(explode(';', $_SERVER['CONTENT_TYPE'] ?? '')[0])) !== 'application/json') throw new ApiError(415, 'JSON request required.');
-        $raw = file_get_contents('php://input', false, null, 0, 16385);
-        if ($raw === false || strlen($raw) > 16384) throw new ApiError(413, 'Request is too large.');
-        try { $input = json_decode($raw, true, 16, JSON_THROW_ON_ERROR); }
-        catch (JsonException) { throw new ApiError(400, 'Invalid JSON request.'); }
-        if (!is_array($input) || !str_starts_with(ltrim($raw), '{')) throw new ApiError(400, 'JSON object required.');
+        if ($action === 'product-upload') {
+            if (strtolower(trim(explode(';', $_SERVER['CONTENT_TYPE'] ?? '')[0])) !== 'multipart/form-data') throw new ApiError(415, 'Multipart upload required.');
+            $input = $_POST;
+        } else {
+            if (strtolower(trim(explode(';', $_SERVER['CONTENT_TYPE'] ?? '')[0])) !== 'application/json') throw new ApiError(415, 'JSON request required.');
+            $raw = file_get_contents('php://input', false, null, 0, 16385);
+            if ($raw === false || strlen($raw) > 16384) throw new ApiError(413, 'Request is too large.');
+            try { $input = json_decode($raw, true, 16, JSON_THROW_ON_ERROR); }
+            catch (JsonException) { throw new ApiError(400, 'Invalid JSON request.'); }
+            if (!is_array($input) || !str_starts_with(ltrim($raw), '{')) throw new ApiError(400, 'JSON object required.');
+        }
     }
     $database = $config['database'] ?? [];
     if (!str_starts_with($database['dsn'] ?? '', 'mysql:')) throw new RuntimeException('MySQL configuration required');
@@ -84,7 +96,20 @@ try {
     $auth = new Auth($db, $config);
     // REMOTE_ADDR only; never trust a client-supplied forwarding header for rate limits.
     $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+    $products = new Products($db, $auth, $config);
+    if ($action === 'product-image') {
+        $products->serveImage(is_string($_GET['file'] ?? null) ? $_GET['file'] : '');
+    }
     $body = match ($action) {
+        'catalog' => $products->catalog(),
+        'products' => $products->list(),
+        'product' => $products->get(is_string($_GET['id'] ?? null) ? $_GET['id'] : ''),
+        'product-save' => $products->save($input),
+        'product-delete' => $products->delete($input),
+        'product-costs' => $products->saveCosts($input),
+        'product-upload' => $products->upload($input),
+        'product-image-edit' => $products->imageEdit($input),
+        'product-image-delete' => $products->imageEdit($input, true),
         'session' => $auth->session(),
         'bootstrap' => $auth->bootstrap($input, $ip),
         'login' => $auth->login($input, $ip),

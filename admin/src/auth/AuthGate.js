@@ -5,7 +5,7 @@ function checkSession(result) {
   if (
     !Object.prototype.hasOwnProperty.call(result, 'user') ||
     (result.user &&
-      (!result.user.id || !['Owner', 'Operations', 'Sales'].includes(result.user.role)))
+      (!result.user.id || !['Owner', 'Operations Manager'].includes(result.user.role)))
   )
     throw new Error('Unable to verify your account. Please try again.');
   return { status: 'ready', user: result.user, setupRequired: !!result.setupRequired };

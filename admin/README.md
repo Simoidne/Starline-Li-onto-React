@@ -90,7 +90,7 @@ Open http://localhost:3001. The development proxy sends `/api` requests to PHP o
 
 ## Account and security behavior
 
-Only an owner can invite or change other users. Roles are Owner, Operations and Sales. There is no public signup or frontend role selector. Owners cannot change their own access; another owner must do that. Invited users start without a usable password and receive a one-use setup link. Invitation links expire after 48 hours; recovery links after 30 minutes. Creating a new link invalidates the previous one for that user.
+Only an owner can invite or change other users. Roles are Owner and Operations Manager. Both have full product, photo, costing and pricing access. There is no public signup or frontend role selector. Owners cannot change their own access; another owner must do that. Invited users start without a usable password and receive a one-use setup link. Invitation links expire after 48 hours; recovery links after 30 minutes. Creating a new link invalidates the previous one for that user.
 
 Passwords must contain at least 12 characters and at most 72 UTF-8 bytes, matching bcrypt's input limit. A signed-in password change also requires the current password. Password changes, password resets, disabling an account and changing its role increment the account's session version; old sessions fail the next API check. They also invalidate outstanding password links. For a pending invitation whose access was changed, send a fresh password link.
 

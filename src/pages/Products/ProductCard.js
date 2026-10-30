@@ -41,6 +41,12 @@ export default function ProductCard({ product }) {
   return (
     <article className={`product-card${descriptionVisible ? ' is-expanded' : ''}`}>
       <h2>{product.name}</h2>
+      {product.category && <p>{product.category}</p>}
+      <p>
+        {product.public_price_cad != null
+          ? `${new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(Number(product.public_price_cad))} / ${product.unit}`
+          : 'Contact us for pricing'}
+      </p>
       <button
         className="product-photo"
         type="button"
@@ -55,11 +61,15 @@ export default function ProductCard({ product }) {
         onClick={toggleDescription}
         onKeyDown={handleKeyDown}
       >
-        <img
-          src={`https://images.unsplash.com/${product.image}?auto=format&fit=crop&w=800&q=80`}
-          alt={product.alt}
-          loading="lazy"
-        />
+        {product.images?.[0] ? (
+          <img
+            src={product.images[0].url}
+            alt={product.images[0].alt_text}
+            loading="lazy"
+          />
+        ) : (
+          <span className="product-no-photo">Photo coming soon</span>
+        )}
         <span
           className="product-description"
           id={descriptionId}

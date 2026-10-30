@@ -1,9 +1,10 @@
 import React from 'react';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import App from './App';
-import { authClient } from './auth/client';
+import { request, authClient } from './auth/client';
 
 jest.mock('./auth/client', () => ({
+  request: jest.fn(),
   authClient: {
     session: jest.fn(),
     login: jest.fn(),
@@ -18,11 +19,17 @@ jest.mock('./auth/client', () => ({
     setAccess: jest.fn(),
   },
 }));
-const user = { id: '1', email: 'ops@example.com', name: 'Alex', role: 'Operations' };
+const user = {
+  id: '1',
+  email: 'ops@example.com',
+  name: 'Alex',
+  role: 'Operations Manager',
+};
 const anonymous = { user: null, setupRequired: false };
 
 beforeEach(() => {
   jest.resetAllMocks();
+  request.mockResolvedValue({ products: [] });
   Object.defineProperty(document, 'visibilityState', {
     configurable: true,
     value: 'visible',
@@ -66,8 +73,8 @@ test('valid login uses the server role and logout closes the dashboard', async (
   await mount();
   await fillLogin();
   fireEvent.click(screen.getByRole('button', { name: 'Sign in' }));
-  await screen.findByText('Saleable weight');
-  expect(screen.queryByText('Estimated gross profit')).toBeNull();
+  await screen.findByText('Estimated gross profit');
+  expect(screen.getByText('Estimated gross margin')).toBeTruthy();
   expect(screen.queryByText('Manage users')).toBeNull();
   fireEvent.click(screen.getByRole('button', { name: 'Sign out' }));
   await screen.findByRole('button', { name: 'Sign in' });
@@ -152,7 +159,7 @@ test('recovery consumes a fragment token, checks confirmation and clears the URL
 test('a late session refresh cannot reopen the dashboard after logout', async () => {
   authClient.session.mockResolvedValueOnce({ user });
   await mount();
-  await screen.findByText('Saleable weight');
+  await screen.findByText('Estimated gross profit');
   let finish;
   authClient.session.mockReturnValueOnce(
     new Promise((resolve) => {
@@ -169,7 +176,7 @@ test('a late session refresh cannot reopen the dashboard after logout', async ()
 test('a revoked session is removed when the app regains focus', async () => {
   authClient.session.mockResolvedValueOnce({ user }).mockResolvedValue(anonymous);
   await mount();
-  await screen.findByText('Saleable weight');
+  await screen.findByText('Estimated gross profit');
   act(() => window.dispatchEvent(new Event('focus')));
   await screen.findByRole('button', { name: 'Sign in' });
 });

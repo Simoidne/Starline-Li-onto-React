@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS starline_admin_users (
   email VARCHAR(254) NOT NULL UNIQUE,
   display_name VARCHAR(120) NOT NULL,
   password_hash VARCHAR(255) NULL,
-  role ENUM('owner', 'operations', 'sales') NOT NULL,
+  role ENUM('owner', 'operations') NOT NULL,
   active TINYINT UNSIGNED NOT NULL DEFAULT 1,
   auth_version INT UNSIGNED NOT NULL DEFAULT 1,
   created_at BIGINT UNSIGNED NOT NULL

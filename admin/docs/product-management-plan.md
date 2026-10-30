@@ -34,3 +34,15 @@ Allow authorized Starline staff to create and edit seafood products, attach imag
 - Confirmed: only Owner and Operations Manager roles are needed now; both have complete product and financial management access. Sales role should be removed from the application; user reports there are no Sales accounts, but production migration must still verify this. Design for adding roles later.
 - Is the public selling price shown to visitors or used only internally for quotations?
 - Should costing support multiple suppliers, shipments, and historical price revisions per product?
+
+## Mandatory production release check: retire Sales completely
+
+**Codex / developer instruction — release blocker:** When this feature is eventually deployed to production, verify that the obsolete **Sales** role and all Sales-specific functionality are removed from the **deployed production application**, not merely hidden in the development UI. Only **Owner** and **Operations Manager** should remain, both with full internal administrative permissions.
+
+Before release:
+1. Search both public and admin frontend code, PHP backend, database migrations/schema, role dropdowns, invitation flows, authorization checks, tests, documentation, and deployment artifacts for the legacy `sales` role and Sales-specific access logic. Do not confuse a staff role named Sales with ordinary product selling prices, sales figures, or business transactions; preserve those business features.
+2. Verify against the **live** `starline_admin_users` table that no accounts have `role = 'sales'` before applying a schema migration. The owner reports none exist, but this has **not** been independently verified. If any are found, stop the migration and request a decision; never silently delete or reassign accounts.
+3. Apply a reviewed, reversible migration to restrict permitted roles to `owner` and `operations` (display name: **Operations Manager**). Preserve existing Owner/Operations accounts, authentication, and session security. Keep future role extensibility in mind.
+4. Test both roles' complete access to product editing, photo management, private cost breakdowns, pricing, and other authorized admin functions. Test that legacy `sales` role values are rejected by the API and cannot be selected or invited in the UI.
+5. Inspect the actual production build and deployed site after rollout to confirm there are no leftover Sales-role controls, invitations, or authorization paths. Record results in the release checklist. Do not declare completion based solely on passing local tests.
+6. Do not merge or deploy automatically; require explicit release approval and a rollback plan.

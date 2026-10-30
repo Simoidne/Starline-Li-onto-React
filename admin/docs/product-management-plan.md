@@ -16,7 +16,7 @@ Allow authorized Starline staff to create and edit seafood products, attach imag
 
 ## Security boundaries
 - Public endpoint returns **only** published product name, description, category, public listing price, and approved image URLs. Never serialize costs, supplier prices, internal notes, or draft records.
-- Admin endpoints use existing authenticated session, CSRF and exact-origin checks. Owner can manage products and costs; other roles require explicit permission policy before enabling writes.
+- Admin endpoints use existing authenticated session, CSRF and exact-origin checks. Owner, Operations, and Sales may create and edit products and manage product photos. Enforce these permissions server-side on every write endpoint. Access to confidential costs remains a separate permission decision; do not automatically grant cost visibility to Sales or Operations solely because they can edit products.
 - Server validates fields and computes authoritative landed cost. Use a defined decimal rounding policy for financial calculations; do not trust browser-computed totals.
 - Image upload must validate MIME and decoded content, cap bytes/dimensions/count, generate random filenames, strip metadata/re-encode, and prevent PHP/script execution in upload storage. Do not trust extensions or user filenames. Ensure images are served from a controlled public media path.
 - Audit product and cost edits with actor and timestamps; never expose cost data through public routes or frontend bundles.
@@ -31,6 +31,6 @@ Allow authorized Starline staff to create and edit seafood products, attach imag
 7. Add end-to-end integration tests and document safe deployment/rollback; do not deploy or merge automatically.
 
 ## Open decisions
-- Which roles besides Owner may edit products and view costs?
+- Confirmed: Owner, Operations, and Sales can create and edit products and manage product photos. Still to decide: which roles may view or edit confidential cost breakdowns?
 - Is the public selling price shown to visitors or used only internally for quotations?
 - Should costing support multiple suppliers, shipments, and historical price revisions per product?

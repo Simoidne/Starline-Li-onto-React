@@ -6,7 +6,7 @@ Allow authorized Starline staff to create and edit seafood products, attach imag
 ## Existing architecture
 - Admin React app under `admin/`, PHP API and MariaDB authentication.
 - Public React Products page currently imports static `productData` and displays placeholder products.
-- Current authentication has Owner, Operations, and Sales. Target roles: **Owner** and **Operations Manager** only. Remove Sales from role options and authorization after reviewing the existing schema, API, UI, and any existing Sales accounts. New permissions must be checked on every PHP endpoint.
+- Current authentication has Owner, Operations, and Sales. Target roles: **Owner** and **Operations Manager** only. User reports no existing Sales accounts in the live database (not independently verified). Remove Sales from role options and authorization after reviewing existing schema, API, and UI; verify the live database before applying a production migration. New permissions must be checked on every PHP endpoint.
 
 ## Proposed data model
 - `starline_products`: id, sku (unique), name, description, category, unit, public_price_cad, status (draft/published/archived), sort_order, timestamps.
@@ -31,6 +31,6 @@ Allow authorized Starline staff to create and edit seafood products, attach imag
 7. Add end-to-end integration tests and document safe deployment/rollback; do not deploy or merge automatically.
 
 ## Open decisions
-- Confirmed: only Owner and Operations Manager roles are needed now; both have complete product and financial management access. Sales role should be removed from the application after checking existing accounts and migration impact. Design for adding roles later.
+- Confirmed: only Owner and Operations Manager roles are needed now; both have complete product and financial management access. Sales role should be removed from the application; user reports there are no Sales accounts, but production migration must still verify this. Design for adding roles later.
 - Is the public selling price shown to visitors or used only internally for quotations?
 - Should costing support multiple suppliers, shipments, and historical price revisions per product?

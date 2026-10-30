@@ -6,7 +6,7 @@ Allow authorized Starline staff to create and edit seafood products, attach imag
 ## Existing architecture
 - Admin React app under `admin/`, PHP API and MariaDB authentication.
 - Public React Products page currently imports static `productData` and displays placeholder products.
-- Existing roles: Owner, Operations, Sales. New permissions must be checked on every PHP endpoint.
+- Current authentication has Owner, Operations, and Sales. Target roles: **Owner** and **Operations Manager** only. Remove Sales from role options and authorization after reviewing the existing schema, API, UI, and any existing Sales accounts. New permissions must be checked on every PHP endpoint.
 
 ## Proposed data model
 - `starline_products`: id, sku (unique), name, description, category, unit, public_price_cad, status (draft/published/archived), sort_order, timestamps.
@@ -16,7 +16,7 @@ Allow authorized Starline staff to create and edit seafood products, attach imag
 
 ## Security boundaries
 - Public endpoint returns **only** published product name, description, category, public listing price, and approved image URLs. Never serialize costs, supplier prices, internal notes, or draft records.
-- Admin endpoints use existing authenticated session, CSRF and exact-origin checks. Owner, Operations, and Sales may create and edit products and manage product photos. Enforce these permissions server-side on every write endpoint. Access to confidential costs remains a separate permission decision; do not automatically grant cost visibility to Sales or Operations solely because they can edit products.
+- Admin endpoints use existing authenticated session, CSRF and exact-origin checks. Both Owner and Operations Manager have full control of product management, photo uploads, private cost breakdowns, pricing, and margins. Enforce permissions server-side on every endpoint. Keep the design extensible for future roles; never expose private costs through public endpoints.
 - Server validates fields and computes authoritative landed cost. Use a defined decimal rounding policy for financial calculations; do not trust browser-computed totals.
 - Image upload must validate MIME and decoded content, cap bytes/dimensions/count, generate random filenames, strip metadata/re-encode, and prevent PHP/script execution in upload storage. Do not trust extensions or user filenames. Ensure images are served from a controlled public media path.
 - Audit product and cost edits with actor and timestamps; never expose cost data through public routes or frontend bundles.
@@ -31,6 +31,6 @@ Allow authorized Starline staff to create and edit seafood products, attach imag
 7. Add end-to-end integration tests and document safe deployment/rollback; do not deploy or merge automatically.
 
 ## Open decisions
-- Confirmed: Owner, Operations, and Sales can create and edit products and manage product photos. Still to decide: which roles may view or edit confidential cost breakdowns?
+- Confirmed: only Owner and Operations Manager roles are needed now; both have complete product and financial management access. Sales role should be removed from the application after checking existing accounts and migration impact. Design for adding roles later.
 - Is the public selling price shown to visitors or used only internally for quotations?
 - Should costing support multiple suppliers, shipments, and historical price revisions per product?
